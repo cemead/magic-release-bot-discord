@@ -53,24 +53,31 @@ async def add_set(ctx, *, set_info):
         await ctx.send(embed=embed)
         return
 
+    # Go through every character in the string
     for char in set_info:
+        # update loop to see if you've reached the end of the string
         loop += 1
-        #await ctx.send(f'char: `{char}`')
-        #await ctx.send(f'current arg: `{current_arg}')
+
+        # check to see if the space is inside quotes (to denote it as part of the title) or if it's one of the other arguments
         if char == ' ' and not inside_quotes:
+            # add it to the args list if it is
             args_list.append(current_arg.strip())
+            # remove current_arg to refill
             current_arg = ""
+            
+        # Check to see if the character is in quotes 
+        # (for instances where the title is more than one word)
         elif char == '"':
             inside_quotes = not inside_quotes
+
+        # if you're at the very end of the string, add the ending character to the current arg, add the current arg to the arg list, and break the loop
         elif len(set_info) == loop:
             current_arg += char
             args_list.append(current_arg.strip())
             break
         else:
-            #await ctx.send(f'else statement triggered')
             current_arg += char
     args_list.append(current_arg.strip())
-    # await ctx.send(f'Args_List:\n```{args_list}```')
 
   # Extract set name, preview_date, release_date, and blog_link
     set_abb = args_list[0]
@@ -78,12 +85,6 @@ async def add_set(ctx, *, set_info):
     preview_date = args_list[2]
     release_date = args_list[3]
     blog_link = args_list[4]
-
-    # Test block - remove in final:
-
-    #test_block = f"Set Abbreviation: {set_abb}\nSet Name: {set_name}\nPreview Date: {preview_date}\nRelease Date: {release_date}\nBlog Link: {blog_link}"
-    #await ctx.send(f'Parsing Results:\n```{test_block}```')
-    
     
     # Validate date format before adding to the database
     if not validate_date_format(release_date) or not validate_date_format(preview_date):
@@ -104,10 +105,12 @@ async def add_set(ctx, *, set_info):
     await ctx.send(f'{set_abb} **{set_name}** has been added to the database.')
         
 
+# return a set from the database with ;findset
 @bot.command(name='findset')
 async def find_set(ctx, set_abb):
-    # Check if the MTG set exists in the database
+    # Check if the set exists in the database
     cursor.execute('SELECT * FROM mtg_sets WHERE set_abb = ?', (set_abb,))
+    # assign the record to "result"
     result = cursor.fetchone()
 
     if result:
