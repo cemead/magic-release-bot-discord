@@ -47,7 +47,7 @@ async def add_set(ctx, *, set_info):
     
     if set_info.startswith("help"):
         await ctx.send(f'`;addset setcode "Title of the Set" (preview date) (release date) (WotC announcement page)`')
-        example = '```;addset mack "Makkurosuke the Cat" 2014-03-14 2024-02-03 https://en.wikipedia.org/wiki/Susuwatari```'
+        example = '```;addset mack "Makkurosuke the Cat" 2014-03-14 2018-03-21 https://en.wikipedia.org/wiki/Susuwatari```'
         embed = discord.Embed(title="Add Set Command Help", color=0x7289DA)
         embed.add_field(name="Example", value=example, inline=False)
         await ctx.send(embed=embed)
