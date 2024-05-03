@@ -124,7 +124,7 @@ async def page_analysis(ctx, content_str, pub_date):
         set_name = extract_set_name(content_str)
         # if there is no set name, error out
         if set_name is None:
-            raise ValueError("Unable to pull set name from page. Please ping Woku if set is from 2023 or later.")
+            raise ValueError("Unable to pull set name from page. Please ping Lee if set is from 2023 or later.")
             return None
 
 #       pull the set code, preview date, release date
